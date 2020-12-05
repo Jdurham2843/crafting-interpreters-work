@@ -1,5 +1,5 @@
 
-expression     => equality ;
+expression     => equality ("," expression)* ;
 equality       => comparison ( ( "!=" | "==" ) comparison )* ;
 comparison     => term ( ( ">" | ">=" | "<" | "<=" ) term )* ;  
 term           => factor ( ( "-" | "+" ) factor )* ;  
