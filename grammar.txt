@@ -1,7 +1,11 @@
 program        => declaration* EOF ;
-declaration    => varDecl | statement ;
+declaration    => funDecl | varDecl | statement ;
+funDecl        => "fun" function ;
+function       => IDENTIFIER "(" parameters? ")" block ;
+parameters     => IDENTIFIER ( "," IDENTIFIER )* ;
 varDecl        => "var" IDENTIFIER ( "=" expression)? ";" ;
-statement      => exprStmt | ifStmt | printStmt | block ;
+statement      => exprStmt | ifStmt | printStmt | returnStmt | block ;
+returnStmt     => "return" expression? ";" ;
 forStmt        => "for" "(" ( varDecl + exprStmt | ";" )
                   expression? ";"
                   expression? ")" statement ;
@@ -19,6 +23,8 @@ comparison     => term ( ( ">" | ">=" | "<" | "<=" ) term )* ;
 term           => factor ( ( "-" | "+" ) factor )* ;  
 factor         => unary ( ( "/" | "*" ) unary )* ;  
 unary          => ( "!" | "-" ) unary  
-                 | primary ;  
+                 | call;
+call           => primary ( "(" arguments? ")" )* ;
+arguments      => expression ( "," expression )*;
 primary        => NUMBER | STRING | "true" | "false" | "nil"  
                  | "(" expression ")" | IDENTIFIER;
